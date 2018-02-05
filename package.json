@@ -1,0 +1,20 @@
+{
+  "name": "indiepost-scheduled-posts",
+  "version": "1.0.0",
+  "description": "AWS Lambda fuction for publish scheduled posts",
+  "main": "index.js",
+  "scripts": {
+    "setup": "./node_modules/.bin/node-lambda setup",
+    "test": "./node_modules/.bin/node-lambda run",
+    "package": "./node_modules/.bin/node-lambda package",
+    "deploy": "./node_modules/.bin/node-lambda deploy"
+  },
+  "author": "Jake KW Lee",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {
+    "node-lambda": "^0.11.6"
+  }
+}
