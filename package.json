@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "moment-timezone": "^0.5.14",
     "mysql2": "^1.5.2"
   },
   "devDependencies": {
