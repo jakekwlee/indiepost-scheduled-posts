@@ -5,7 +5,7 @@
       "ScheduleState": "ENABLED",
       "ScheduleExpression": "rate(5 minute)",
       "Input": {
-        "name": "publish-scheduled-posts",
+        "key": "publish-scheduled-posts",
         "description": "Publish scheduled posts if exist"
       }
     }
