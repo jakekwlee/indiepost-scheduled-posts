@@ -17,14 +17,26 @@ const publishScheduledPosts = (connectionPool, now) => {
 };
 
 const getScheduledPosts = (connectionPool, now) => {
-  return connectionPool.getConnection().then(conn => {
-    const result = conn.execute(
-      `select id, title, status, splash, featured from Posts where status = 'FUTURE' and publishedAt < ?`,
-      [now]
-    );
-    conn.release();
-    return result;
-  });
+  return connectionPool
+    .getConnection()
+    .then(conn => {
+      const result = conn.execute(
+        `select id, title, status, splash, featured from Posts where status = 'FUTURE' and publishedAt < ?`,
+        [now]
+      );
+      conn.release();
+      return result;
+    })
+    .then(result => {
+      const posts = result[0];
+      return posts && posts.length
+        ? posts.map(post => ({
+            ...post,
+            splash: castBufferToBoolean(post.splash),
+            featured: castBufferToBoolean(post.featured),
+          }))
+        : posts;
+    });
 };
 
 const unsetFeaturedPosts = (connectionPool, splash = false) =>
@@ -43,6 +55,8 @@ const unsetFeaturedPosts = (connectionPool, splash = false) =>
     return result;
   });
 
+const castBufferToBoolean = buf => buf.readUInt8(0) === 0x1;
+
 const getAreFeaturedPostsExist = posts => {
   const isExist = {
     splash: false,
@@ -55,11 +69,14 @@ const getAreFeaturedPostsExist = posts => {
     if (post.featured) {
       isExist.featured = true;
     }
+    console.log(post);
+    console.log(isExist);
   });
   return isExist;
 };
 module.exports = {
   getScheduledPosts,
+  castBufferToBoolean,
   unsetFeaturedPosts,
   publishScheduledPosts,
   getAreFeaturedPostsExist,

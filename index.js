@@ -19,8 +19,7 @@ exports.handler = (event, context, callback) => {
     .tz('Asia/Seoul')
     .format('YYYY/MM/DD HH:mm:ss');
   return getScheduledPosts(pool, now)
-    .then(result => {
-      const posts = result[0];
+    .then(posts => {
       if (posts.length === 0) {
         // End process immediately
         callback();
