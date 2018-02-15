@@ -30,11 +30,12 @@ const getScheduledPosts = (connectionPool, now) => {
     .then(result => {
       const posts = result[0];
       return posts && posts.length
-        ? posts.map(post => ({
-            ...post,
-            splash: castBufferToBoolean(post.splash),
-            featured: castBufferToBoolean(post.featured),
-          }))
+        ? posts.map(post =>
+            Object.assign({}, post, {
+              splash: castBufferToBoolean(post.splash),
+              featured: castBufferToBoolean(post.featured),
+            })
+          )
         : posts;
     });
 };
@@ -57,23 +58,17 @@ const unsetFeaturedPosts = (connectionPool, splash = false) =>
 
 const castBufferToBoolean = buf => buf.readUInt8(0) === 0x1;
 
-const getAreFeaturedPostsExist = posts => {
-  const isExist = {
-    splash: false,
-    featured: false,
-  };
-  posts.forEach(post => {
-    if (post.splash) {
-      isExist.splash = true;
+const getAreFeaturedPostsExist = posts =>
+  posts.reduce(
+    (result, post) => ({
+      splash: result.splash || post.splash,
+      featured: result.featured || post.featured,
+    }),
+    {
+      splash: false,
+      featured: false,
     }
-    if (post.featured) {
-      isExist.featured = true;
-    }
-    console.log(post);
-    console.log(isExist);
-  });
-  return isExist;
-};
+  );
 module.exports = {
   getScheduledPosts,
   castBufferToBoolean,
