@@ -1,3 +1,4 @@
+// test environment
 module.exports = {
   host: 'localhost',
   user: 'indiepost',
