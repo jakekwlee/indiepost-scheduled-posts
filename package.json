@@ -1,7 +1,7 @@
 {
   "name": "indiepost-scheduled-posts",
   "version": "1.0.1",
-  "description": "AWS Lambda fuction for publish scheduled posts",
+  "description": "AWS Lambda function for publish scheduled posts",
   "main": "index.js",
   "scripts": {
     "setup": "./node_modules/.bin/node-lambda setup",
