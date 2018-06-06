@@ -1,6 +1,5 @@
-// test environment
 module.exports = {
-  host: 'localhost',
+  host: 'rds_cluster.indiepost.vpc',
   user: 'indiepost',
   password: 'indiepost',
   database: 'indiepost',

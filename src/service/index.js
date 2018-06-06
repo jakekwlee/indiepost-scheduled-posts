@@ -1,6 +1,7 @@
 const mysql = require('mysql2/promise');
 const moment = require('moment-timezone');
 const dbConfig = require('../config/mysql-config');
+const redisClient = require('../repository/redisClient');
 const {
   getScheduledPosts,
   getAreFeaturedPostsExist,
@@ -39,7 +40,12 @@ const publishScheduledPostsIfExist = callback => {
         return callback();
       }
       pool.end();
-      logPublishedPosts(result[0]);
+      return Promise.all([
+        redisClient.deleteCacheAsync('home::rendered::0'),
+        logPublishedPosts(result[0]),
+      ]);
+    })
+    .then(() => {
       return callback();
     })
     .catch(err => {
