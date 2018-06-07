@@ -1,6 +1,6 @@
 {
   "name": "indiepost-scheduled-posts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "AWS Lambda function for publish scheduled posts",
   "main": "index.js",
   "scripts": {
