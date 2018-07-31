@@ -8,11 +8,11 @@ const {
 } = require('./namedQueries');
 
 module.exports = (() => {
-  let pool = null;
+  let connection = null;
 
-  const initialize = () => {
-    if (!pool || !pool.getConnection) {
-      pool = mysql.createPool(config.mysql);
+  const connect = () => {
+    if (!connection) {
+      connection = mysql.createConnection(config.mysql);
     }
   };
 
@@ -20,7 +20,7 @@ module.exports = (() => {
 
   const executeQuery = (sqlQuery, args = null) => {
     return new Promise((resolve, reject) => {
-      pool.query(sqlQuery, args, (error, results) => {
+      connection.query(sqlQuery, args, (error, results) => {
         if (error) {
           reject(error);
         }
@@ -58,19 +58,19 @@ module.exports = (() => {
     );
   };
 
-  const terminate = () => {
-    if (pool && pool.end) {
-      pool.end();
+  const end = () => {
+    if (connection && connection.end) {
+      connection.end();
     }
   };
 
   return {
-    initialize,
+    connect,
     getScheduledPosts,
     castBufferToBoolean,
     unsetFeaturedPosts,
     publishScheduledPosts,
     getAreFeaturedPostsExist,
-    terminate,
+    end,
   };
 })();

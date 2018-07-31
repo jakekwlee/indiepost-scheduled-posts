@@ -49,6 +49,7 @@ describe('Repository Tests', () => {
       },
     ];
 
+    repository.connect();
     for (let i = 0; i < cases.length; ++i) {
       const testCase = cases[i];
       const expectedResult = expected[i];
@@ -57,5 +58,6 @@ describe('Repository Tests', () => {
         expect(actual).toEqual(expectedResult);
       });
     }
+    repository.end();
   });
 });

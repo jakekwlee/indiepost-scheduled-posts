@@ -9,14 +9,14 @@ const log = posts => {
 };
 
 const publishScheduledPostsIfExist = callback => {
-  repository.initialize();
+  repository.connect();
 
   return repository
     .getScheduledPosts()
     .then(posts => {
       if (posts.length === 0) {
         // End process immediately
-        repository.terminate();
+        repository.end();
         return callback();
       }
       const { splash, featured } = repository.getAreFeaturedPostsExist(posts);
@@ -39,11 +39,11 @@ const publishScheduledPostsIfExist = callback => {
     })
     .then(() => redisClient.deleteCacheAsync('home::rendered::0'))
     .then(() => {
-      repository.terminate();
+      repository.end();
       return callback();
     })
     .catch(err => {
-      repository.terminate();
+      repository.end();
       return callback(err);
     });
 };
