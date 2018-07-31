@@ -58,9 +58,9 @@ module.exports = (() => {
     );
   };
 
-  const end = () => {
-    if (connection && connection.end) {
-      connection.end();
+  const destroy = () => {
+    if (connection && connection.destroy) {
+      connection.destroy();
     }
   };
 
@@ -71,6 +71,6 @@ module.exports = (() => {
     unsetFeaturedPosts,
     publishScheduledPosts,
     getAreFeaturedPostsExist,
-    end,
+    destroy,
   };
 })();

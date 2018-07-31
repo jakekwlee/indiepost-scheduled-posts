@@ -16,8 +16,7 @@ const publishScheduledPostsIfExist = callback => {
     .then(posts => {
       if (posts.length === 0) {
         // End process immediately
-        repository.end();
-        return callback();
+        callback();
       }
       const { splash, featured } = repository.getAreFeaturedPostsExist(posts);
       return Promise.all([
@@ -39,12 +38,10 @@ const publishScheduledPostsIfExist = callback => {
     })
     .then(() => redisClient.deleteCacheAsync('home::rendered::0'))
     .then(() => {
-      repository.end();
-      return callback();
+      callback();
     })
     .catch(err => {
-      repository.end();
-      return callback(err);
+      callback(err);
     });
 };
 

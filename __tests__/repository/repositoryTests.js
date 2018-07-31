@@ -58,6 +58,6 @@ describe('Repository Tests', () => {
         expect(actual).toEqual(expectedResult);
       });
     }
-    repository.end();
+    repository.destroy();
   });
 });
