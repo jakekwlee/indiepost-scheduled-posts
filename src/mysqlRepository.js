@@ -60,7 +60,15 @@ module.exports = (() => {
 
   const end = () => {
     if (connection && connection.end) {
-      connection.end();
+      return new Promise((resolve, reject) => {
+        connection.end(err => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
     }
   };
 
