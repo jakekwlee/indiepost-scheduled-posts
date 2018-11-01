@@ -33,27 +33,30 @@ module.exports = (() => {
 
   const getScheduledPosts = () => {
     return executeQuery(SELECT_SCHEDULED_POSTS).then(posts => {
-      return posts.map(post => ({
-        ...post,
-        splash: castBufferToBoolean(post.splash),
-        featured: castBufferToBoolean(post.featured),
-      }));
+      return posts.map(post => {
+        const { isFeatured, isSplash } = post;
+        return {
+          ...post,
+          isSplash,
+          isFeatured,
+        };
+      });
     });
   };
 
-  const unsetFeaturedPosts = (splash = false) => {
-    return splash ? executeQuery(UNSET_SPLASH_POSTS) : executeQuery(UNSET_FEATURE_POSTS);
+  const unsetFeaturedPosts = (isSplash = false) => {
+    return isSplash ? executeQuery(UNSET_SPLASH_POSTS) : executeQuery(UNSET_FEATURE_POSTS);
   };
 
   const getAreFeaturedPostsExist = posts => {
     return posts.reduce(
       (result, post) => ({
-        splash: result.splash || post.splash,
-        featured: result.featured || post.featured,
+        isSplash: result.isSplash || post.isSplash,
+        isFeatured: result.isFeatured || post.isFeatured,
       }),
       {
-        splash: false,
-        featured: false,
+        isSplash: false,
+        isFeatured: false,
       }
     );
   };

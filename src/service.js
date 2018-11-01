@@ -28,12 +28,8 @@ const publishScheduledPostsIfExist = callback => {
     .then(results => {
       const posts = results[0];
       if (posts.length) {
-        posts.forEach(post => {
-          const { id, title } = post;
-          console.log(`Publish posts: [${id}] ${title}`);
-        });
+        log(results[0]);
       }
-      log(results[0]);
       return repository.publishScheduledPosts();
     })
     .then(() => redisClient.deleteCacheAsync('home::rendered::0'))
