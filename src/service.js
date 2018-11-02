@@ -18,11 +18,11 @@ const publishScheduledPostsIfExist = callback => {
         // End process immediately
         callback();
       }
-      const { splash, featured } = repository.getAreFeaturedPostsExist(posts);
+      const { isSplash, isFeatured } = repository.getAreFeaturedPostsExist(posts);
       return Promise.all([
         posts,
-        splash ? repository.unsetFeaturedPosts(true) : null,
-        featured ? repository.unsetFeaturedPosts(false) : null,
+        isSplash ? repository.unsetFeaturedPosts(true) : null,
+        isFeatured ? repository.unsetFeaturedPosts(false) : null,
       ]);
     })
     .then(results => {
